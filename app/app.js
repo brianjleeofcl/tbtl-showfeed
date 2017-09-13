@@ -27,7 +27,7 @@ app.get('/redirect', (req, res) => {
       'https://www.reddit.com/api/v1/access_token', 
       `grant_type=authorization_code&code=${code}&redirect_uri=https://tbtl-showfeed.herokuapp.com/redirect`, 
       { auth: {
-        username: process.env.REDDIT_CLIENT_ID, password: process.env.REDDIT_CLIEN_TSECRET
+        username: process.env.REDDIT_CLIENT_ID, password: process.env.REDDIT_CLIENT_SECRET
       }
     }).then(({data}) => {
       console.log(require('util').inspect(data));
