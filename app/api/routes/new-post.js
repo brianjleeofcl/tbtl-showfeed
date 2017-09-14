@@ -28,23 +28,45 @@ const refreshToken = function(req, res, next) {
   }).catch(() => res.sendStatus(500));
 }
 
-router.post('/', (req, res) => {
+router.post('/', refreshToken, (req, res) => {
   const { title, url, description } = req.body;
+  const data = {
+    sr: 'tbtl',
+    title,
+    text: `${description}
+    
+    [Listen at \`apmpodcasts.org\`](${url})`,
+    kind: 'self',
+    sendreplies: false,
+    api_type: 'json'
+  };
 
-
-
+  axios.post(
+    'https://oauth.reddit.com/api/submit', 
+    qs.stringify(data), 
+    {
+      headers: {
+        'Authorization': `${req.token_type} ${req.token}`
+      }
+    } 
+  ).then(({data}) => {
+    if (data.json.errors.length > 0) res.sendStatus(500);
+    else res.sendStatus(200);
+  }).catch(error => {
+    console.error(error);
+    res.sendStatus(error.response.status);
+  })
 });
 
 router.post('/test', refreshToken, (req, res) => {
   const data = {
-    sr: 'tbtl',
+    sr: 'test',
     title: 'Test Post',
     text: 'this is a test post!',
     kind: 'self',
     sendreplies: false,
     api_type: 'json'
   };
-
 
   axios.post(
     'https://oauth.reddit.com/api/submit', 
