@@ -13,9 +13,12 @@ const refreshToken = function(req, res) {
         password: process.env.REDDIT_CLIENT_SECRET
       }
     })
-  }).then(({data}) => {
+  }).then(({data, request}) => {
     console.log(require('util').inspect(data))
-  }).catch(({response})=> res.sendStatus(response.status));
+  }).catch(({response, request})=> {
+    console.error(require('util').inspect(request))
+    res.sendStatus(response.status)
+  });
 }
 
 router.post('/', (req, res) => {
