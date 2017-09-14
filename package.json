@@ -11,7 +11,8 @@
     "express": "^4.15.4",
     "knex": "^0.13.0",
     "morgan": "^1.8.2",
-    "pg": "^7.3.0"
+    "pg": "^7.3.0",
+    "querystring": "^0.2.0"
   },
   "devDependencies": {
     "dotenv": "^4.0.0",

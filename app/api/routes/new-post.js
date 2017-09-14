@@ -3,6 +3,7 @@ const router = express.Router();
 
 const knex = require('../../knex');
 const axios = require('axios');
+const qs = require('querystring');
 
 const refreshToken = function(req, res, next) {
   knex('reddit_users').where('user_name', 'tbtl_showfeed').select('refresh_token').then(([result]) => {
@@ -35,22 +36,26 @@ router.post('/', (req, res) => {
 });
 
 router.post('/test', refreshToken, (req, res) => {
+  const data = {
+    sr: 'tbtl',
+    title: 'Test Post',
+    text: 'this is a test post!',
+    kind: 'self',
+    sendreplies: false,
+    api_type: 'json'
+  };
+
+
   axios.post(
     'https://oauth.reddit.com/api/submit', 
-    {
-      sr: 'tbtl',
-      title: 'Test Post',
-      text: 'this is a test post!',
-      kind: 'self',
-      sendreplies: false,
-      api_type: 'json'
-    }, 
+    qs.stringify(data), 
     {
       headers: {
         'Authorization': `${req.token_type} ${req.token}`
       }
     } 
-  ).then(({data}) => {
+  ).then(({data, request}) => {
+    console.log(require('util').inspect(request));
     console.log(require('util').inspect(data));
     res.sendStatus(200);
   }).catch(error => {
