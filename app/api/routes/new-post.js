@@ -16,6 +16,7 @@ const refreshToken = function(req, res, next) {
         }
       }
     ).then(({data}) => {
+      console.log(require('util').inspect(data));
       knex('reddit_users').where('user_name', 'tbtl_showfeed').update('access_token', data.access_token);
       req.token = data.access_token;
       next();
@@ -45,11 +46,16 @@ router.post('/test', refreshToken, (req, res) => {
     }, 
     {
       headers: {
-        'Authorization': req.token
+        'Authorization': `bearer ${req.token}`
       }
     } 
-  ).catch(error => console.error(error))
-  res.sendStatus(200);
+  ).then(({data}) => {
+
+    res.sendStatus(200);
+  }).catch(error => {
+    console.error(error);
+    res.sendStatus(error.response.status);
+  })
 });
 
 module.exports = router;
