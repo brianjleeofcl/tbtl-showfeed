@@ -21,9 +21,9 @@ router.get('/redirect', (req, res) => {
         username: process.env.REDDIT_CLIENT_ID, password: process.env.REDDIT_CLIENT_SECRET
       }
     }).then(({data}) => {
-      
-      console.log(require('util').inspect(data));
-    });
+      const { access_token, refresh_token } = data;
+      return knex('reddit_users').where('user_name', 'tblt_showfeed').update({ access_token, refresh_token }, '*');
+    }).then(data => console.log(require('util').inspect(data)));
   }
 })
 
