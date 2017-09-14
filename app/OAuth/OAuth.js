@@ -23,8 +23,8 @@ router.get('/redirect', (req, res) => {
       }
     }).then(({data}) => {
       const { access_token, refresh_token } = data;
-      return knex('reddit_users').where('user_name', 'tbtl_showfeed').update({ access_token, refresh_token }, '*');
-    }).then(data => console.log(require('util').inspect(data)));
+      return knex('reddit_users').where('user_name', 'tbtl_showfeed').update({ access_token, refresh_token });
+    }).then(() => console.log("AUTH TOKENS RESET")).catch(console.error);
   }
 })
 
