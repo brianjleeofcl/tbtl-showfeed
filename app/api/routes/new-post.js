@@ -4,7 +4,7 @@ const router = express.Router();
 const knex = require('../../knex');
 const axios = require('axios');
 
-const refreshToken = function(req, res) {
+const refreshToken = function(req, res, next) {
   knex('reddit_users').where('user_name', 'tbtl_showfeed').select('refresh_token').then(([result]) => {
     axios.post(
       'https://www.reddit.com/api/v1/access_token',
@@ -18,6 +18,7 @@ const refreshToken = function(req, res) {
     ).then(({data}) => {
       knex('reddit_users').where('user_name', 'tbtl_showfeed').update('access_token', data.access_token);
       req.token = data.access_token;
+      next();
     }).catch(({response})=> {
       res.sendStatus(response.status);
     })
@@ -47,7 +48,7 @@ router.post('/test', refreshToken, (req, res) => {
         'Authorization': req.token
       }
     } 
-  )
+  ).catch(error => console.error(error))
   res.sendStatus(200);
 });
 
