@@ -18,10 +18,13 @@ router.get('/redirect', (req, res) => {
     axios.post(
       'https://www.reddit.com/api/v1/access_token', 
       `grant_type=authorization_code&code=${code}&redirect_uri=https://tbtl-showfeed.herokuapp.com/OAuth/redirect`, 
-      { auth: {
-        username: process.env.REDDIT_CLIENT_ID, password: process.env.REDDIT_CLIENT_SECRET
+      { 
+        auth: {
+          username: process.env.REDDIT_CLIENT_ID, 
+          password: process.env.REDDIT_CLIENT_SECRET
+        }
       }
-    }).then(({data}) => {
+    ).then(({data}) => {
       const { access_token, refresh_token } = data;
       return knex('reddit_users').where('user_name', 'tbtl_showfeed').update({ access_token, refresh_token });
     }).then(() => console.log("AUTH TOKENS RESET")).catch(console.error);
