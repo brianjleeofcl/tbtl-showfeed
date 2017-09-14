@@ -23,7 +23,7 @@ router.get('/redirect', (req, res) => {
       }
     }).then(({data}) => {
       const { access_token, refresh_token } = data;
-      return knex('reddit_users').where('user_name', 'tblt_showfeed').update({ access_token, refresh_token }, '*');
+      return knex('reddit_users').where('user_name', 'tbtl_showfeed').update({ access_token, refresh_token }, '*');
     }).then(data => console.log(require('util').inspect(data)));
   }
 })
