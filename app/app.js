@@ -22,7 +22,7 @@ app.get('/redirect', (req, res) => {
   const { code, state } = req.query;
   if (state !== process.env.REDDIT_STATE_STRING) return res.sendStatus(403);
   else {
-    res.sendStatus(200);
+    res.redirect(302, 'https://www.reddit.com/r/tbtl');
     axios.post(
       'https://www.reddit.com/api/v1/access_token', 
       `grant_type=authorization_code&code=${code}&redirect_uri=https://tbtl-showfeed.herokuapp.com/redirect`, 
