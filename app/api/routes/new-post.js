@@ -14,11 +14,12 @@ const refreshToken = function(req, res) {
           username: process.env.REDDIT_CLIENT_ID, 
           password: process.env.REDDIT_CLIENT_SECRET
         }
-      })
+      }
+    )
   }).then(({data, request}) => {
-    console.log(require('util').inspect(data))
+    req.token = data.access_token;
+    next();
   }).catch(({response, request})=> {
-    console.error(require('util').inspect(request))
     res.sendStatus(response.status)
   });
 }
@@ -31,6 +32,22 @@ router.post('/', (req, res) => {
 });
 
 router.post('/test', refreshToken, (req, res) => {
+  axios.post(
+    'https://oauth.reddit.com/api/submit', 
+    {
+      sr: 'test',
+      title: 'Test Post',
+      text: 'this is a test post!',
+      kind: 'self',
+      sendreplies: false,
+      api_type: 'json'
+    }, 
+    {
+      headers: {
+        'Authorization': req.token
+      }
+    } 
+  )
   res.sendStatus(200);
 });
 
