@@ -16,10 +16,10 @@ const refreshToken = function(req, res) {
         }
       }
     )
-  }).then(({data, request}) => {
-    req.token = data.access_token;
-    next();
-  }).catch(({response, request})=> {
+  }).then(({data}) => {
+    knex('reddit_users').where('user_name', 'tbtl_showfeed').update('access_token', data.access_token);
+    req.token = data.access_token
+  }).catch(({response})=> {
     res.sendStatus(response.status)
   });
 }
