@@ -7,7 +7,7 @@ const axios = require('axios');
 const refreshToken = function(req, res) {
   knex('reddit_users').where('user_name', 'tbtl_showfeed').select('refresh_token').then(([result]) => {
     return axios.post('https://www.reddit.com/api/v1/access_token', {
-      data: `grant_type=refresh_token&refresh_token=${result.refreshToken}`,
+      data: `grant_type=refresh_token&refresh_token=${result.refresh_token}`,
       auth: {
         username: process.env.REDDIT_CLIENT_ID, 
         password: process.env.REDDIT_CLIENT_SECRET
