@@ -38,7 +38,7 @@ router.post('/test', refreshToken, (req, res) => {
   axios.post(
     'https://oauth.reddit.com/api/submit', 
     {
-      sr: 'test',
+      sr: 'tbtl',
       title: 'Test Post',
       text: 'this is a test post!',
       kind: 'self',
