@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const knex = require('../knex');
+const axios = require('axios');
 
 router.get('/start', (req, res) => {
   // makes sure only requests with secret gets redirected; this prevents any random user from accessing the app.
