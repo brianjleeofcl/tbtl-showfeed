@@ -33,13 +33,13 @@ router.post('/', refreshToken, (req, res) => {
   const data = {
     sr: 'tbtl',
     title,
-    text: `${description}
-    
-    [Listen at \`apmpodcasts.org\`](${url})`,
+    text: `*${description}*\r\n\r\n**[Listen at apmpodcasts.org](${url})**`,
     kind: 'self',
     sendreplies: false,
     api_type: 'json'
   };
+
+  console.log(qs.stringify(data));
 
   axios.post(
     'https://oauth.reddit.com/api/submit', 
