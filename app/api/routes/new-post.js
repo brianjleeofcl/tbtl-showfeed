@@ -6,7 +6,7 @@ const axios = require('axios');
 
 const refreshToken = function(req, res) {
   knex('reddit_users').where('user_name', 'tbtl_showfeed').select('refresh_token').then(([result]) => {
-    return axios.post(
+    axios.post(
       'https://www.reddit.com/api/v1/access_token',
       `grant_type=refresh_token&refresh_token=${result.refresh_token}`, 
       {
@@ -15,13 +15,13 @@ const refreshToken = function(req, res) {
           password: process.env.REDDIT_CLIENT_SECRET
         }
       }
-    )
-  }).then(({data}) => {
-    knex('reddit_users').where('user_name', 'tbtl_showfeed').update('access_token', data.access_token);
-    req.token = data.access_token
-  }).catch(({response})=> {
-    res.sendStatus(response.status)
-  });
+    ).then(({data}) => {
+      knex('reddit_users').where('user_name', 'tbtl_showfeed').update('access_token', data.access_token);
+      req.token = data.access_token;
+    }).catch(({response})=> {
+      res.sendStatus(response.status);
+    })
+  }).catch(() => res.sendStatus(500));
 }
 
 router.post('/', (req, res) => {
