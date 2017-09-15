@@ -29,7 +29,8 @@ const refreshToken = function(req, res, next) {
 }
 
 router.post('/', refreshToken, (req, res) => {
-  const { title, url, description } = req.body;
+  const { title, url, description, secret } = req.body;
+  if (secret !== process.env.SECRET_HANDSHAKE) return res.sendStatus(403);
   const data = {
     sr: 'tbtl',
     title,
