@@ -14,4 +14,8 @@ app.use(
 app.use('/OAuth', require('./OAuth/OAuth'));
 app.use('/api', require('./api/api'));
 
+app.get('/', (req, res) => {
+  res.redirect(302, 'https://github.com/brianjleeofcl/tbtl-showfeed');
+})
+
 module.exports = app;
