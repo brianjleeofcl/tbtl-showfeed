@@ -2,6 +2,10 @@
 
 This application features automatic posting from a podcast feed to Reddit using its API. It interprets `POST` requests to specific endpoints and makes `POST` requests to Reddit's API with necessary OAuth information. For the implementation of a second backend that is responsible to making the `POST` calls, look at [tbtl-showfeed-websub](https://github.com/brianjleeofcl/tbtl-showfeed-websub).
 
+#### Updates
+
+**September 29, 2017**: fix markdown style in the template for POST request
+
 ## API
 
 ### Route `/api/new-post`

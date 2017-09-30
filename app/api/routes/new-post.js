@@ -36,7 +36,7 @@ router.post('/', refreshToken, (req, res) => {
   const data = {
     sr: 'tbtl',
     title,
-    text: `*${description}*\r\n\r\n**[Listen at apmpodcasts.org](${url})**`,
+    text: `_${description}_\r\n\r\n*****\r\n\r\n**[Listen at apmpodcasts.org](${url})**\r\n\r\n*****`,
     kind: 'self',
     sendreplies: false,
     api_type: 'json'
